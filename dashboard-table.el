@@ -45,20 +45,16 @@
 
 (require 'magit) ;; only for a single face
 
-(defvar dashboard-table-buffer-name "*dashboard-table*" nil)
-(defvar dashboard-table-section-alist nil
+(defvar-local dashboard-table-buffer-name "*dashboard-table*" nil)
+(defvar-local dashboard-table-section-alist nil
   "Mapping from section names to user-defined section data.")
 
-(defvar dashboard-table-columns nil
-  "Column-names and column-sizes of the dashboard.")
+(defvar-local dashboard-table-columns nil
+  "Column-names and column-sizes of the dashboard.
+See the docstring of `tabulated-list-format'.")
 
-;; some variables have to be made buffer-local s.t. refreshing of
-;; dashboards works as expected.
-(make-variable-buffer-local 'dashboard-table-columns)
-(make-variable-buffer-local 'dashboard-table-section-alist)
-
-(defvar dashboard-table-section-name-column 0
-  "column index (zero-indexed) of the section title"
+(defvar-local dashboard-table-section-name-column 0
+  "column index (zero-indexed) of the section title."
   ;; This variable exists because the built-in tabulated-list mode,
   ;; which is used as backend for this mode, doesn't have support for
   ;; displaying section titles.
@@ -66,16 +62,14 @@
   ;; TODO get rid of this variable and add support for section titles to
   ;; tabulated-list-mode.
 )
-(make-variable-buffer-local 'dashboard-table-section-name-column)
 
 (defface dashboard-table-section
   '((t (:inherit 'magit-section-heading)))
   "Used for the section names in the dashboard."
   :group 'faces)
 
-(defvar dashboard-table-get-section-data-function (lambda ())
+(defvar-local dashboard-table-get-section-data-function (lambda ())
   "Return a list with \"tabulated-list-entries\".")
-(make-variable-buffer-local 'dashboard-table-get-section-data-function)
 
 (defun dashboard-table--section-name-row (section-name num-entries)
   (let ((row (make-vector (length dashboard-table-columns) "")))
