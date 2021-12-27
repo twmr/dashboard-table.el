@@ -29,13 +29,13 @@
 ;; -> per-section query functions
 
 ;; TODO document user interface
-;; TODO do I want users/developers to create a new minor mode?
-;; let's assume that a single buffer is needed per minor mode
+;; TODO do I want users/developers to create a new major mode?
+;; let's assume that a single buffer is needed per major mode
 ;;
 ;; the user can specify a mapping from section-title to query-function
 ;; The columns
 
-;; define macros that can be used for creating minor modes
+;; define macros that can be used for creating major modes
 
 ;; TODO option for displaying header line for every section
 ;; TODO allow using different header-columns for different sections
