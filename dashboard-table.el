@@ -26,7 +26,7 @@
 
 ;; What's the benefit of this mode?
 ;; -> sections
-;; -> per-section query functions
+;; -> per-section getter functions
 
 ;; TODO document user interface
 ;; TODO do I want users/developers to create a new major mode?
@@ -46,22 +46,18 @@
 (require 'magit) ;; only for a single face
 
 (defvar dashboard-table-buffer-name "*dashboard-table*" nil)
-(defvar dashboard-table-query-alist
-  '(("Assigned to me" . "assignee:self (-is:wip OR owner:self OR assignee:self) is:open -is:ignored")
-    ("Work in progress" . "is:open owner:self is:wip")
-    ("Outgoing reviews" . "is:open owner:self -is:wip -is:ignored")
-    ("Incoming reviews" .  "is:open -owner:self -is:wip -is:ignored (reviewer:self OR assignee:self)")
-    ("CCed On" . "is:open -is:ignored cc:self")
-    ("Recently closed" . "is:closed -is:ignored (-is:wip OR owner:self) (owner:self OR reviewer:self OR assignee:self OR cc:self) limit:15"))
-  "Query search string that is used for the data shown in the dashboard-table.")
+(defvar dashboard-table-section-alist nil
+  "Mapping from section names to user-defined section data.")
 
-(defvar dashboard-table-columns
-  [("Number" 8)
-   ("Subject" 55)
-   ]
+(defvar dashboard-table-columns nil
   "Column-names and column-sizes of the dashboard.")
 
-(defvar dashboard-table-section-title-column 1
+;; some variables have to be made buffer-local s.t. refreshing of
+;; dashboards works as expected.
+(make-variable-buffer-local 'dashboard-table-columns)
+(make-variable-buffer-local 'dashboard-table-section-alist)
+
+(defvar dashboard-table-section-name-column 0
   "column index (zero-indexed) of the section title"
   ;; This variable exists because the built-in tabulated-list mode,
   ;; which is used as backend for this mode, doesn't have support for
@@ -70,24 +66,23 @@
   ;; TODO get rid of this variable and add support for section titles to
   ;; tabulated-list-mode.
 )
+(make-variable-buffer-local 'dashboard-table-section-name-column)
 
 (defface dashboard-table-section
   '((t (:inherit 'magit-section-heading)))
   "Used for the section names in the dashboard."
   :group 'faces)
 
-(defun dashboard-table--get-section-data (section)
-  "Return a list with \"tabulated-list-entries\"."
-  (seq-map (lambda (row)
-             `(nil [,(format "S%s-row%d-abc" section row), "def"]))
-             '(2 4 6)))
+(defvar dashboard-table-get-section-data-function (lambda ())
+  "Return a list with \"tabulated-list-entries\".")
+(make-variable-buffer-local 'dashboard-table-get-section-data-function)
 
-(defun dashboard-table--section-title-row (section-title num-entries)
+(defun dashboard-table--section-name-row (section-name num-entries)
   (let ((row (make-vector (length dashboard-table-columns) "")))
-    ;; now set the section title in the desired column
-    (aset row dashboard-table-section-title-column
+    ;; now set the section title/name in the desired column
+    (aset row dashboard-table-section-name-column
           (propertize
-           (format "%s (%d)" section-title num-entries)
+           (format "%s (%d)" section-name num-entries)
            'face 'gerrit-section))
     `((nil ,row))))
 
@@ -95,12 +90,12 @@
   "Get the all entries used for \"tabulated-list-entries\"."
   (seq-reduce (lambda (acc conscell)
                 (let ((section-data
-                       (dashboard-table--get-section-data (cdr conscell))))
+                       (funcall dashboard-table-get-section-data-function (cdr conscell))))
                   (append acc
-                          (dashboard-table--section-title-row (car conscell)
+                          (dashboard-table--section-name-row (car conscell)
                                                               (length section-data))
                           section-data)))
-              dashboard-table-query-alist '()))
+              dashboard-table-section-alist '()))
 
 (defun dashboard-table--refresh ()
   "Refresh dashboard."
@@ -125,25 +120,9 @@
 
 (define-derived-mode dashboard-table-mode tabulated-list-mode "dashboard-table"
   "dashboard-table mode"
-  (use-local-map dashboard-table-mode-map)
-
-  ;; all lines that don't start with a changenr are header-lines that are
+  (use-local-map dashboard-table-mode-map)  ;; all lines that don't start with a changenr are header-lines that are
   ;; treated as the beginning of a paragraph
-  (setq-local paragraph-start "^[^0-9]")
-
-  ;; some variables have to be made buffer-local s.t. refreshing of
-  ;; dashboards works as expected.
-  (setq-local dashboard-table-columns dashboard-table-columns)
-  (setq-local dashboard-table-query-alist dashboard-table-query-alist)
-
-  (dashboard-table--refresh))
-
-;;;###autoload
-(defun dashboard-table ()
-  "Show a dashboard in a new buffer."
-  (interactive)
-  (switch-to-buffer dashboard-table-buffer-name)
-  (dashboard-table-mode))
+  (setq-local paragraph-start "^[^0-9]"))
 
 (provide 'dashboard-table)
 ;;; dashboard-table.el ends here
