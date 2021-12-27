@@ -144,3 +144,6 @@
   (interactive)
   (switch-to-buffer dashboard-table-buffer-name)
   (dashboard-table-mode))
+
+(provide 'dashboard-table)
+;;; dashboard-table.el ends here
