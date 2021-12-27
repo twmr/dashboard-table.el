@@ -40,6 +40,7 @@
 ;; TODO option for displaying header line for every section
 ;; TODO allow using different header-columns for different sections
 ;; TODO use different backend for dashboard-table instead of tabulated-list-mode. Maybe eww?
+;; TODO support multiline rows (if the value doesn't fit within one row)
 
 ;;; Code:
 

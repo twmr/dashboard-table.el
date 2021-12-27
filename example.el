@@ -31,3 +31,8 @@
   (interactive)
   (switch-to-buffer "example-table")
   (example-table-mode))
+
+;; TODO better would be a function that takes a section alist + a column
+;; format and that creates a dashboard function, because setting the alist +
+;; the columns in the major mode is not very nice, especially if the user
+;; should be able to define dashboards
