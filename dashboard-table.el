@@ -115,8 +115,12 @@ See the docstring of `tabulated-list-format'.")
 
 (define-derived-mode dashboard-table-mode tabulated-list-mode "dashboard-table"
   "dashboard-table mode"
-  (use-local-map dashboard-table-mode-map)  ;; all lines that don't start with a changenr are header-lines that are
-  ;; treated as the beginning of a paragraph
+  (use-local-map dashboard-table-mode-map)
+
+  ;; TODO this has to be defined in the mode that is derived from
+  ;; dashboard-table-mode.
+  ;; all lines that don't start with a changenr are
+  ;; header-lines that are treated as the beginning of a paragraph
   (setq-local paragraph-start "^[^0-9]"))
 
 (provide 'dashboard-table)
