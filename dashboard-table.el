@@ -1,4 +1,4 @@
-;;; dashboard-table.el --- tabular data with section names -*- lexical-binding: t; -*-
+;;; dashboard-table.el --- Tabular data with section names -*- lexical-binding: t; -*-
 
 ;; Author: Thomas Hisch <t.hisch@gmail.com>
 ;; Maintainer: Thomas Hisch <t.hisch@gmail.com>
