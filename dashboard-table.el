@@ -77,7 +77,7 @@ See the docstring of `tabulated-list-format'.")
     (aset row dashboard-table-section-name-column
           (propertize
            (format "%s (%d)" section-name num-entries)
-           'face 'gerrit-section))
+           'face 'dashboard-table-section))
     `((nil ,row))))
 
 (defun dashboard-table--get-list-entries ()
