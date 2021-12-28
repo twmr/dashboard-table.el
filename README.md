@@ -23,13 +23,11 @@ Here is a small example that shows how the package can be used.
 ```el
 (require 'dashboard-table)
 
-(defun example-table-get-section-data (section)
+(defun example-table-get-section-data (section-data)
   "Return a list with \"tabulated-list-entries\"."
   (seq-map (lambda (row)
-             `(nil [,(format "%s-row%d-abc" section row)
-                    "def"
-                    "DD"]))
-             '(2 4 6 9 10)))
+      `(nil [,(format "A%d" row) "B" "C"]))
+      (number-sequence 1 (car section-data))))
 
 (define-derived-mode example-table-mode dashboard-table-mode "example-table"
   "example-table mode"
@@ -42,12 +40,12 @@ Here is a small example that shows how the package can be used.
   (switch-to-buffer "example-table")
   (example-table-mode)
   (setq dashboard-table-section-alist
-        '(("Section1" . "pars for section1")
-          ("Section2" . "pars for section2")))
+        '(("Section1" . (5 0))
+          ("Section2" . (2 0))))
   (setq dashboard-table-columns
-        [("Key" 40)
-         ("Name" 55)
-         ("Status" 10)
+        [("Key" 12)
+         ("Name" 20)
+         ("Status" 5)
          ])
   (setq dashboard-table-section-name-column 0)
   (setq dashboard-table-get-section-data-function
