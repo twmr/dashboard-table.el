@@ -54,16 +54,6 @@
   "Column-names and column-sizes of the dashboard.
 See the docstring of `tabulated-list-format'.")
 
-(defvar-local dashboard-table-section-name-column 0
-  "column index (zero-indexed) of the section title."
-  ;; This variable exists because the built-in tabulated-list mode,
-  ;; which is used as backend for this mode, doesn't have support for
-  ;; displaying section titles.
-
-  ;; TODO get rid of this variable and add support for section titles to
-  ;; tabulated-list-mode.
-)
-
 (defface dashboard-table-section
   '((t (:inherit 'magit-section-heading)))
   "Used for the section names in the dashboard."
@@ -73,13 +63,10 @@ See the docstring of `tabulated-list-format'.")
   "Return a list with \"tabulated-list-entries\".")
 
 (defun dashboard-table--section-name-row (section-name num-entries)
-  (let ((row (make-vector (length dashboard-table-columns) "")))
-    ;; now set the section title/name in the desired column
-    (aset row dashboard-table-section-name-column
-          (propertize
-           (format "%s (%d)" section-name num-entries)
-           'face 'dashboard-table-section))
-    `((nil ,row))))
+  `((section-row
+     ,(propertize
+       (format "%s (%d)" section-name num-entries)
+       'face 'dashboard-table-section))))
 
 (defun dashboard-table--get-list-entries ()
   "Get the all entries used for \"tabulated-list-entries\"."
@@ -92,11 +79,18 @@ See the docstring of `tabulated-list-format'.")
                           section-data)))
               dashboard-table-section-alist '()))
 
+(defun dashboard-table-print-entry (id cols)
+  (if (eq id 'section-row)
+      ;; cols is a section name (a string) for section rows
+      (insert (concat cols "\n"))
+    (tabulated-list-print-entry id cols)))
+
 (defun dashboard-table--refresh ()
   "Refresh dashboard."
   (interactive)
   (setq tabulated-list-format dashboard-table-columns)
   (setq tabulated-list-entries (dashboard-table--get-list-entries))
+  (setq tabulated-list-printer #'dashboard-table-print-entry)
   (tabulated-list-init-header)
   (tabulated-list-print))
 

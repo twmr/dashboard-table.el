@@ -27,7 +27,6 @@
          ("Name" 55)
          ("Data1" 10)
          ])
-  (setq dashboard-table-section-name-column 0)
   (setq dashboard-table-get-section-data-function
         #'example-table-get-section-data)
   (dashboard-table--refresh))
@@ -46,7 +45,6 @@
          ("Name2" 55)
          ("Data1" 10)
          ])
-  (setq dashboard-table-section-name-column 0)
   (setq dashboard-table-get-section-data-function
         #'example-table-get-section-data)
   (dashboard-table--refresh))

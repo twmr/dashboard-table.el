@@ -43,11 +43,10 @@ Here is a small example that shows how the package can be used.
         '(("Section1" . (5 0))
           ("Section2" . (2 0))))
   (setq dashboard-table-columns
-        [("Key" 12)
+        [("Key" 3)
          ("Name" 20)
          ("Status" 5)
          ])
-  (setq dashboard-table-section-name-column 0)
   (setq dashboard-table-get-section-data-function
         #'example-table-get-section-data)
   (dashboard-table--refresh))
