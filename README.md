@@ -10,7 +10,8 @@ in the future).
 
 ## Installation
 
-This package is not yet available via MELPA.
+As of 2022-01-05 the package is not yet available in a package repository
+and has to be installed manually with `package-install-file`.
 
 ## Usage
 
