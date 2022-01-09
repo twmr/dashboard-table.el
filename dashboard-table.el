@@ -111,11 +111,11 @@ See the docstring of `tabulated-list-format'.")
   "dashboard-table mode"
   (use-local-map dashboard-table-mode-map)
 
-  ;; TODO this has to be defined in the mode that is derived from
-  ;; dashboard-table-mode.
-  ;; all lines that don't start with a changenr are
-  ;; header-lines that are treated as the beginning of a paragraph
-  (setq-local paragraph-start "^[^0-9]"))
+  ;; TODO I know that it is possible to set paragraph-start also to
+  ;; functions; do that
+  ;; see https://sachachua.com/blog/2022/01/defining-generic-and-mode-specific-emacs-lisp-functions-with-cl-defmethod/
+  ;; (setq-local paragraph-start "^[^0-9]")
+  )
 
 (provide 'dashboard-table)
 ;;; dashboard-table.el ends here
