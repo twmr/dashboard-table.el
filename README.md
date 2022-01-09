@@ -27,7 +27,10 @@ Here is a small example that shows how the package can be used.
 (defun example-table-get-section-data (section-data)
   "Return a list with \"tabulated-list-entries\"."
   (seq-map (lambda (row)
-      `(nil [,(format "A%d" row) "B" "C"]))
+      ;; The used-entry-id is unique here, because this ensures that the
+      ;; current position is prpoperly restured if you use e.g.
+      ;; tabulated-list-widen-current-column.
+      `(,(list section-data row) [,(format "A%d" row) "Blasdfadsdfav" "Cllllmmmmmm"]))
       (number-sequence 1 (car section-data))))
 
 (define-derived-mode example-table-mode dashboard-table-mode "example-table"

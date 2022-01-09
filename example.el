@@ -3,7 +3,7 @@
 (defun example-table-get-section-data (section)
   "Return a list with \"tabulated-list-entries\"."
   (seq-map (lambda (row)
-             `(nil [,(format "%s-row%d-abc" section row)
+             `((list section row) [,(format "%s-row%d-abc" section row)
                     "def"
                     "DD"]))
              '(2 4 6 9 10)))
