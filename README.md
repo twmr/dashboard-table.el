@@ -30,12 +30,13 @@ Here is a small example that shows how the package can be used.
       ;; The used-entry-id is unique here, because this ensures that the
       ;; current position is prpoperly restured if you use e.g.
       ;; tabulated-list-widen-current-column.
-      `(,(list section-data row) [,(format "A%d" row) "Blasdfadsdfav" "Cllllmmmmmm"]))
+      `(,(list section-data row) [,(format "A%dbingobingo" row) "Blasdfadsdfav" "Cllllmmmmmm"]))
       (number-sequence 1 (car section-data))))
 
 (define-derived-mode example-table-mode dashboard-table-mode "example-table"
   "example-table mode"
   ;; you can use a local keymap here
+  (variable-pitch-mode)
   )
 
 (defun example-table ()
