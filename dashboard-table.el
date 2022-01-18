@@ -35,11 +35,13 @@
 ;; the user can specify a mapping from section-title to query-function
 ;; The columns
 
-;; define macros that can be used for creating major modes
+;; define macros that can be used for creating dashboards
 
 ;; TODO option for displaying header line for every section
-;; TODO allow using different header-columns for different sections
-;; TODO use different backend for dashboard-table instead of tabulated-list-mode. Maybe eww?
+;; TODO allow using different header-columns for different sections (
+;;      very complicated using tabulated-list-mode)
+;; TODO use different backend for dashboard-table instead of tabulated-list-mode.
+;;       Maybe eww or xwidget-webkit-browse-url?
 ;; TODO support multiline rows (if the value doesn't fit within one row)
 
 ;;; Code:
