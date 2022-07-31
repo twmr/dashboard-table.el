@@ -4,7 +4,7 @@
 ;; Maintainer: Thomas Hisch <t.hisch@gmail.com>
 ;; URL: https://github.com/thisch/dashboard-table.el
 ;; Version: 0.1
-;; Package-Requires: ((emacs "25.1") (magit "2.13.1"))
+;; Package-Requires: ((emacs "25.1"))
 ;; Keywords: extensions
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -46,7 +46,7 @@
 
 ;;; Code:
 
-(require 'magit) ;; only for a single face
+(require 'outline) ;; only for a single face
 
 (defvar-local dashboard-table-buffer-name "*dashboard-table*" nil)
 (defvar-local dashboard-table-section-alist nil
@@ -57,7 +57,7 @@
 See the docstring of `tabulated-list-format'.")
 
 (defface dashboard-table-section
-  '((t (:inherit 'magit-section-heading)))
+  '((t (:inherit 'outline-1)))
   "Used for the section names in the dashboard."
   :group 'faces)
 
